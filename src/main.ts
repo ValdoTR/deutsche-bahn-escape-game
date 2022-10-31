@@ -20,11 +20,7 @@ WA.onInit().then(() => {
     */
 
     const clueWarning = "Asking for a clue will add 2 minutes to your time. The game ends after 20 minutes."
-    let riddleCigaretteCompleted = false // TODO State variable
-    let riddleQuestionCompleted = false
-
     let cigaretteFound = false
-    let questionOngoing = false
 
     WA.room.area.onEnter("cigarette").subscribe(() => {
         currentPopup = WA.ui.openPopup("cigarettePopup", "A cigarette left on the ground. There is a trash can for that, but this person was obviously in a hurry.", [])
@@ -35,7 +31,7 @@ WA.onInit().then(() => {
     WA.room.area.onEnter("cigaretteThrown").subscribe(() => {
         if (cigaretteFound) {
             currentPopup = WA.ui.openPopup("cigaretteThrownPopup", "You throw the cigarette in the garbage can. You completed a riddle.", [])
-            riddleCigaretteCompleted = true
+            WA.state.CigaretteComplete = true
         }
     })
     WA.room.area.onLeave("cigaretteThrown").subscribe(closePopup)
@@ -60,7 +56,7 @@ WA.onInit().then(() => {
     WA.room.onEnterLayer("tic-tac-toe-play1").subscribe(() => {
         if (WA.state.TicTacToeStarted) {
             WA.state.TicTacToePlay1 = true
-            WA.state.TicTacToeWon = WA.state.TicTacToePlay2
+            WA.state.TicTacToeComplete = WA.state.TicTacToePlay2
         }
     })
     WA.room.onLeaveLayer("tic-tac-toe-play1").subscribe(() => {
@@ -70,7 +66,7 @@ WA.onInit().then(() => {
     WA.room.onEnterLayer("tic-tac-toe-play2").subscribe(() => {
         if (WA.state.TicTacToeStarted) {
             WA.state.TicTacToePlay2 = true
-            WA.state.TicTacToeWon = WA.state.TicTacToePlay1
+            WA.state.TicTacToeComplete = WA.state.TicTacToePlay1
         }
     })
     WA.room.onLeaveLayer("tic-tac-toe-play2").subscribe(() => {
@@ -78,24 +74,24 @@ WA.onInit().then(() => {
     })    
 
     WA.chat.onChatMessage((message => {
-        if (questionOngoing) {
-            riddleQuestionCompleted = message == "2018"
-            if (riddleQuestionCompleted) {
+        if (WA.state.QuestionOngoing) {
+            WA.state.QuestionComplete = message == "2018"
+            if (WA.state.QuestionComplete) {
                 WA.chat.sendChatMessage("Correct. You can now enter.", "KindRobot000")
                 WA.room.hideLayer("room1bot")
                 WA.state.trainDoor = true
             } else {
                 WA.chat.sendChatMessage("Incorrect. You now have to start all over again.", "KindRobot000")
-                questionOngoing = false
+                WA.state.QuestionOngoing = false
             }
         }
     }));
 
     WA.room.area.onEnter("room1bot").subscribe(() => {
-        if (WA.state.TicTacToeWon && riddleCigaretteCompleted) {
+        if (WA.state.TicTacToeComplete && WA.state.CigaretteComplete) {
             WA.chat.sendChatMessage("Stranger, can you tell me in what year the train track switches were fully automated? Type your answer here.", "KindRobot000")
             WA.chat.sendChatMessage("Think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
-            questionOngoing = true
+            WA.state.QuestionOngoing = true
         } else {
             currentPopup = WA.ui.openPopup("room1botPopup", "Stranger, I'll block the access to this train until you prove your worth. " + clueWarning, [
                 {

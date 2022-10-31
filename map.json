@@ -810,13 +810,13 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":54,
          "id":81,
-         "name":"tic-tac-toe-won",
+         "name":"tic-tac-toe-complete",
          "opacity":1,
          "properties":[
                 {
                  "name":"visible",
                  "type":"string",
-                 "value":"{{#TicTacToeWon}}1{{\/TicTacToeWon}}"
+                 "value":"{{#TicTacToeComplete}}1{{\/TicTacToeComplete}}"
                 }],
          "type":"tilelayer",
          "visible":false,
@@ -1971,7 +1971,7 @@
                  "class":"variable",
                  "height":0,
                  "id":59,
-                 "name":"TicTacToeWon",
+                 "name":"TicTacToeComplete",
                  "point":true,
                  "properties":[
                         {
@@ -2020,6 +2020,60 @@
                  "width":0,
                  "x":608,
                  "y":800
+                }, 
+                {
+                 "class":"variable",
+                 "height":0,
+                 "id":62,
+                 "name":"CigaretteComplete",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":1024,
+                 "y":1632
+                }, 
+                {
+                 "class":"variable",
+                 "height":0,
+                 "id":63,
+                 "name":"QuestionComplete",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":1312,
+                 "y":768
+                }, 
+                {
+                 "class":"variable",
+                 "height":0,
+                 "id":64,
+                 "name":"QuestionOngoing",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":1312,
+                 "y":736
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2755,7 +2809,7 @@
          "y":0
         }],
  "nextlayerid":84,
- "nextobjectid":62,
+ "nextobjectid":65,
  "orientation":"orthogonal",
  "properties":[
         {
