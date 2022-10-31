@@ -20,8 +20,7 @@ WA.onInit().then(() => {
     */
 
     const clueWarning = "Asking for a clue will add 2 minutes to your time. The game ends after 20 minutes."
-    let riddleGameCompleted = false
-    let riddleCigaretteCompleted = false
+    let riddleCigaretteCompleted = false // TODO State variable
     let riddleQuestionCompleted = false
 
     let cigaretteFound = false
@@ -47,11 +46,36 @@ WA.onInit().then(() => {
     WA.room.area.onLeave("info").subscribe(closePopup)
 
     WA.room.area.onEnter("game").subscribe(() => {
-        currentPopup = WA.ui.openPopup("gamePopup", "I'm playing Tic-tac-toe but I'm tired of playing against robots so can you try to win the game by being 2 circles?", [])
-        riddleGameCompleted = true // TEMP
+        currentPopup = WA.ui.openPopup("gamePopup", "I'm playing Tic-tac-toe but I'm tired of playing against this robot. Can you try to win the game with circles?", [])
+        WA.state.TicTacToeStarted = true
     })
     WA.room.area.onLeave("game").subscribe(closePopup)
 
+    WA.room.onEnterLayer("tic-tac-toe").subscribe(() => {
+        if (WA.state.TicTacToeStarted) {
+            WA.state.TicTacToeOngoing = true
+        }
+    })
+
+    WA.room.onEnterLayer("tic-tac-toe-play1").subscribe(() => {
+        if (WA.state.TicTacToeStarted) {
+            WA.state.TicTacToePlay1 = true
+            WA.state.TicTacToeWon = WA.state.TicTacToePlay2
+        }
+    })
+    WA.room.onLeaveLayer("tic-tac-toe-play1").subscribe(() => {
+        WA.state.TicTacToePlay1 = false
+    })
+
+    WA.room.onEnterLayer("tic-tac-toe-play2").subscribe(() => {
+        if (WA.state.TicTacToeStarted) {
+            WA.state.TicTacToePlay2 = true
+            WA.state.TicTacToeWon = WA.state.TicTacToePlay1
+        }
+    })
+    WA.room.onLeaveLayer("tic-tac-toe-play2").subscribe(() => {
+        WA.state.TicTacToePlay2 = false
+    })    
 
     WA.chat.onChatMessage((message => {
         if (questionOngoing) {
@@ -68,7 +92,7 @@ WA.onInit().then(() => {
     }));
 
     WA.room.area.onEnter("room1bot").subscribe(() => {
-        if (riddleGameCompleted && riddleCigaretteCompleted) {
+        if (WA.state.TicTacToeWon && riddleCigaretteCompleted) {
             WA.chat.sendChatMessage("Stranger, can you tell me in what year the train track switches were fully automated? Type your answer here.", "KindRobot000")
             WA.chat.sendChatMessage("Think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
             questionOngoing = true
@@ -121,7 +145,7 @@ function closePopup(){
 }
 
 const clues = [
-    [ "1: Indice 1", "1: Indice 2", "1: Indice 3" ],
+    [ "Message from the  Scripting API", "1: Indice 2", "1: Indice 3" ],
     [ "2: Indice 1", "2: Indice 2", "2: Indice 3" ],
     [ "3: Indice 1", "3: Indice 2", "3: Indice 3" ]
   ]
