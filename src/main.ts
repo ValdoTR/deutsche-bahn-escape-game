@@ -11,14 +11,6 @@ WA.onInit().then(() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
 
-
-    /*
-        WA.nav.goToRoom("map.json#step2")
-        const x = 150*32
-        const y = 16*32
-        WA.camera.set(x, y, 500, 500, false, true)
-    */
-
     const clueWarning = "Asking for a clue will add 2 minutes to your time. The game ends after 20 minutes."
     let cigaretteFound = false
 
@@ -32,8 +24,8 @@ WA.onInit().then(() => {
     WA.room.onLeaveLayer("cigarette").subscribe(closePopup)
 
     WA.room.area.onEnter("garbageCan").subscribe(() => {
-        if (cigaretteFound) {
-            currentPopup = WA.ui.openPopup("garbageCanPopup", "You throw the cigarette in the garbage can. You completed a riddle.", [])
+        if (cigaretteFound && !WA.state.CigaretteComplete) {
+            currentPopup = WA.ui.openPopup("garbageCanPopup", "You throw the cigarette in the garbage can. Thank you.", [])
             WA.state.CigaretteComplete = true
         }
     })
@@ -53,6 +45,13 @@ WA.onInit().then(() => {
     WA.room.onEnterLayer("tic-tac-toe").subscribe(() => {
         if (WA.state.TicTacToeStarted) {
             WA.state.TicTacToeOngoing = true
+            WA.room.setProperty("tic-tac-toe", "silent", true)
+
+        }
+    })
+    WA.room.onLeaveLayer("tic-tac-toe").subscribe(() => {
+        if (!WA.state.TicTacToeComplete) {
+            WA.state.TicTacToeOngoing = false
         }
     })
 
@@ -63,7 +62,9 @@ WA.onInit().then(() => {
         }
     })
     WA.room.onLeaveLayer("tic-tac-toe-play1").subscribe(() => {
-        WA.state.TicTacToePlay1 = false
+        if (!WA.state.TicTacToeComplete) {
+            WA.state.TicTacToePlay1 = false
+        }
     })
 
     WA.room.onEnterLayer("tic-tac-toe-play2").subscribe(() => {
@@ -73,7 +74,9 @@ WA.onInit().then(() => {
         }
     })
     WA.room.onLeaveLayer("tic-tac-toe-play2").subscribe(() => {
-        WA.state.TicTacToePlay2 = false
+        if (!WA.state.TicTacToeComplete) {
+            WA.state.TicTacToePlay2 = false
+        }
     })    
 
     WA.chat.onChatMessage((message => {
@@ -81,16 +84,26 @@ WA.onInit().then(() => {
             WA.state.QuestionComplete = message == "2018"
             if (WA.state.QuestionComplete) {
                 WA.chat.sendChatMessage("Correct. You can now enter.", "KindRobot000")
-                WA.room.hideLayer("room1bot")
-                WA.state.trainDoor = true
+                WA.state.TrainDoorOpen = true
             } else {
                 WA.chat.sendChatMessage("Incorrect. You now have to start all over again.", "KindRobot000")
+                WA.state.TicTacToeStarted = false
+                WA.state.TicTacToeOngoing = false
+                WA.state.TicTacToePlay1 = false
+                WA.state.TicTacToePlay2 = false
+                WA.state.TicTacToeComplete = false
+                WA.state.CigaretteVisible = true
+                cigaretteFound = false
+                WA.state.CigaretteComplete = false
                 WA.state.QuestionOngoing = false
+                WA.state.QuestionComplete = false
+                WA.state.TrainDoorOpen = false
             }
         }
     }));
 
     WA.room.area.onEnter("room1bot").subscribe(() => {
+        if (WA.state.QuestionComplete) return
         if (WA.state.TicTacToeComplete && WA.state.CigaretteComplete) {
             WA.chat.sendChatMessage("Stranger, can you tell me in what year the train track switches were fully automated? Type your answer here.", "KindRobot000")
             WA.chat.sendChatMessage("Think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
@@ -106,6 +119,13 @@ WA.onInit().then(() => {
         }
     })
     WA.room.area.onLeave("room1bot").subscribe(closePopup)
+
+    WA.room.area.onEnter("goToDriverCabine").subscribe(() => {
+        WA.nav.goToRoom("map.json#driver-cabine")
+        const x = 137*32
+        const y = 16*32
+        WA.camera.set(x, y, 500, 500, false, true)
+    })
 
     WA.room.area.onEnter("room2bot").subscribe(() => {
         currentPopup = WA.ui.openPopup("room2botPopup", "Stranger, it seems this train is not going to start until you find the right key. " + clueWarning, [
