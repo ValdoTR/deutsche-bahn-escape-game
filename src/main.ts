@@ -22,19 +22,22 @@ WA.onInit().then(() => {
     const clueWarning = "Asking for a clue will add 2 minutes to your time. The game ends after 20 minutes."
     let cigaretteFound = false
 
-    WA.room.area.onEnter("cigarette").subscribe(() => {
-        currentPopup = WA.ui.openPopup("cigarettePopup", "A cigarette left on the ground. There is a trash can for that, but this person was obviously in a hurry.", [])
-        cigaretteFound = true
+    WA.room.onEnterLayer("cigarette").subscribe(() => {
+        if (WA.state.CigaretteVisible) {
+            currentPopup = WA.ui.openPopup("cigarettePopup", "A cigarette left on the ground. There is a trash can for that, but this person was obviously in a hurry.", [])
+            cigaretteFound = true
+            WA.state.CigaretteVisible = false
+        }
     })
-    WA.room.area.onLeave("cigarette").subscribe(closePopup)
+    WA.room.onLeaveLayer("cigarette").subscribe(closePopup)
 
-    WA.room.area.onEnter("cigaretteThrown").subscribe(() => {
+    WA.room.area.onEnter("garbageCan").subscribe(() => {
         if (cigaretteFound) {
-            currentPopup = WA.ui.openPopup("cigaretteThrownPopup", "You throw the cigarette in the garbage can. You completed a riddle.", [])
+            currentPopup = WA.ui.openPopup("garbageCanPopup", "You throw the cigarette in the garbage can. You completed a riddle.", [])
             WA.state.CigaretteComplete = true
         }
     })
-    WA.room.area.onLeave("cigaretteThrown").subscribe(closePopup)
+    WA.room.area.onLeave("garbageCan").subscribe(closePopup)
 
     WA.room.area.onEnter("info").subscribe(() => {
         currentPopup = WA.ui.openPopup("infoPopup", "The goal is to enter all together in the train n°1 and to start it in order to escape!\nThe door can only be opened by the robot in front of the door if you complete all the riddles.", [])
