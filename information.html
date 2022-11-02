@@ -26,30 +26,36 @@
             let htmlContent = ""
             
             const timer = setInterval(() => {
-                let minutes = parseInt(time / 60, 10)
-                let secondes = parseInt(time % 60, 10)
+                if (WA.state.GameStarted) {
+                    time --
 
-                minutes = minutes < 10 ? "0" + minutes : minutes
-                secondes = secondes < 10 ? "0" + secondes : secondes
+                    if (time === 0) {
+                        clearInterval(timer);
+                        WA.controls.disablePlayerControls()
+                        timerElement.innerText = "GAME OVER"
+                        return
+                    }
 
-                timerElement.innerText = time <= 0 ? "GAME OVER" : `${minutes}:${secondes}`
-                time --
+                    let minutes = parseInt(time / 60, 10)
+                    let secondes = parseInt(time % 60, 10)
 
-                if (time === 0) {
-                    clearInterval(timer);
-                    WA.controls.disablePlayerControls()
+                    minutes = minutes < 10 ? "0" + minutes : minutes
+                    secondes = secondes < 10 ? "0" + secondes : secondes
+                    
+                    timerElement.innerText = `${minutes}:${secondes}`
                 }
             }, 1000)
 
             const sync = setInterval(() => {
-                WA.state.EscapeGameTimer = time
-                if (time === 0) {
-                    clearInterval(sync);
+                if (WA.state.GameStarted) {
+                    WA.state.EscapeGameTimer = time
+                    if (time === 0) {
+                        clearInterval(sync);
+                    }
                 }
             }, 3000)
 
             function addClue(clue) {
-                console.log("Add Clue !!!!!!")
                 htmlContent += clue
                 informationElement.insertAdjacentHTML("afterbegin", htmlContent)
                 time -= 120 // 2 minutes penalty
@@ -58,64 +64,64 @@
 
             const Room1Clue1 = WA.state.onVariableChange('Room1Clue1').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 1: Clue n°1</li>")
-                    Room1Clue1.unsubscribe();
+                    addClue("<li>ROOM 1: More information about this room can be found at the reception located at the north of the map.</li>")
+                    Room1Clue1.unsubscribe()
                 }
             });
 
             const Room1Clue2 = WA.state.onVariableChange('Room1Clue2').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 1: Clue n°2</li>")
-                    Room1Clue2.unsubscribe();
+                    addClue("<li>ROOM 1: 3 riddles have to be solved in order to open the train door. Know that you can talk to robots...</li>")
+                    Room1Clue2.unsubscribe()
                 }
             });
 
             const Room1Clue3 = WA.state.onVariableChange('Room1Clue3').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 1: Clue n°3</li>")
-                    Room1Clue3.unsubscribe();
+                    addClue("<li>ROOM 1: The Tic-Tac-Toe game... The cigarette on the floor... The final question...</li>")
+                    Room1Clue3.unsubscribe()
                 }
             });
 
             const Room2Clue1 = WA.state.onVariableChange('Room2Clue1').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 2: Clue n°1</li>")
-                    Room2Clue1.unsubscribe();
+                    addClue("<li>ROOM 2: The train has to be started. A computer should help you if you find the right code.</li>")
+                    Room2Clue1.unsubscribe()
                 }
             });
 
             const Room2Clue2 = WA.state.onVariableChange('Room2Clue2').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 2: Clue n°2</li>")
-                    Room2Clue2.unsubscribe();
+                    addClue("<li>ROOM 2: Find the 4 hidden items.</li>")
+                    Room2Clue2.unsubscribe()
                 }
             });
 
             const Room2Clue3 = WA.state.onVariableChange('Room2Clue3').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 2: Clue n°3</li>")
-                    Room2Clue3.unsubscribe();
+                    addClue("<li>ROOM 2: Each item corresponds to a digit of the code. The greater first...</li>")
+                    Room2Clue3.unsubscribe()
                 }
             });
 
             const Room3Clue1 = WA.state.onVariableChange('Room3Clue1').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 3: Clue n°1</li>")
-                    Room3Clue1.unsubscribe();
+                    addClue("<li>ROOM 3: Max Maulwurf has something to say.</li>")
+                    Room3Clue1.unsubscribe()
                 }
             });
 
             const Room3Clue2 = WA.state.onVariableChange('Room3Clue2').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 3: Clue n°2</li>")
-                    Room3Clue2.unsubscribe();
+                    addClue("<li>ROOM 3: Find the hidden items.</li>")
+                    Room3Clue2.unsubscribe()
                 }
             });
 
             const Room3Clue3 = WA.state.onVariableChange('Room3Clue3').subscribe((value) => {
                 if (value === true) {
-                    addClue("<li>ROOM 3: Clue n°3</li>")
-                    Room3Clue3.unsubscribe();
+                    addClue("<li>ROOM 3: The DB trophy... The WorkAdventure mug... Max's hat...</li>")
+                    Room3Clue3.unsubscribe()
                 }
             });
         })

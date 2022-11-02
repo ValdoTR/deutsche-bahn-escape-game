@@ -33,8 +33,23 @@ WA.onInit().then(() => {
 
 
     // ROOM 1
-    const clueWarning = "Asking for a clue will cost you 2 minutes. The game ends after 20 minutes."
+    const clueWarning = "Asking for a clue will cost you 2 minutes."
+    const cheatWarning = "You have to start over. This may be due to data corruption or you are trying to cheat ^^"
     let cigaretteFound = false
+
+    if (WA.state.GameStarted === false) {
+        currentPopup = WA.ui.openPopup("startPopup", "You have just landed in an abandoned train station. By clicking on ESCAPE the 20 minutes timer will start.", [
+            {
+                label: 'ESCAPE',
+                className: 'error',
+                callback: () => {
+                    WA.state.GameStarted = true
+                    closePopup()
+                },
+            }
+        ])
+    }
+    WA.room.onLeaveLayer("start").subscribe(closePopup)
 
     WA.room.onEnterLayer("cigarette").subscribe(() => {
         if (WA.state.CigaretteVisible) {
@@ -154,7 +169,7 @@ WA.onInit().then(() => {
         // anti-cheat
         if (!WA.state.TrainDoorOpen) {
             WA.controls.disablePlayerControls()
-            currentPopup = WA.ui.openPopup("driverCabinePopup", "You have to start over. This may be due to data corruption or you are trying to cheat ^^", [])
+            currentPopup = WA.ui.openPopup("driverCabinePopup", cheatWarning, [])
         }
     })
 
@@ -168,6 +183,42 @@ WA.onInit().then(() => {
         ])
     })
     WA.room.area.onLeave("room2bot").subscribe(closePopup)
+
+    WA.room.onEnterLayer("room2Object1").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2Object1Popup", "You found a cup of coffee. Studies have shown that the optimal consumption for healthy adults is 3 cups of coffee.", [])
+        WA.state.CoffeeFound = true
+    })
+    WA.room.onLeaveLayer("room2Object1").subscribe(closePopup)
+
+    WA.room.onEnterLayer("room2Object2").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2Object2Popup", "You found a Pretzel. Given the size of this Pretzel, 1 is more than enough for breakfast!", [])
+        WA.state.PretzelFound = true
+    })
+    WA.room.onLeaveLayer("room2Object2").subscribe(closePopup)
+
+    WA.room.onEnterLayer("room2Object3").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2Object3Popup", "You found an old map. It is very rare. Only 8 like this one exist in the world!", [])
+        WA.state.OldMapFound = true
+    })
+    WA.room.onLeaveLayer("room2Object3").subscribe(closePopup)
+
+    WA.room.onEnterLayer("room2Object4").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2Object4Popup", "You found some coins. 5 more and you might be able to trade them for a bank bill.", [])
+        WA.state.CoinsFound = true
+    })
+    WA.room.onLeaveLayer("room2Object4").subscribe(closePopup)
+
+    // ROOM 3
+    WA.room.onEnterLayer("max-maulwurf").subscribe(() => {
+        // anti-cheat
+        if (!WA.state.TrainStarted) {
+            WA.controls.disablePlayerControls()
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", cheatWarning, [])
+        } else {
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
+        }
+    })
+    WA.room.onLeaveLayer("max-maulwurf").subscribe(closePopup)
 
     WA.room.area.onEnter("room3bot").subscribe(() => {
         currentPopup = WA.ui.openPopup("room3botPopup", "Stranger, it seems your beloved Max Maulwurf is hangry. You will be blocked here until you comfort him. " + clueWarning, [
@@ -195,12 +246,9 @@ function closePopup(){
 }
 
 function giveClue(roomNumber: number){
-    console.log(roomNumber)
     let variableName = ""
     for (let i = 1; i < 4; i++) {
         variableName = `Room${roomNumber}Clue${i}`
-        console.log("variableName",variableName)
-        console.log(WA.state.loadVariable(variableName))
         // If the next clue has not been shown: show it
         if (WA.state.loadVariable(variableName) === false) {
             WA.state.saveVariable(variableName, true)
