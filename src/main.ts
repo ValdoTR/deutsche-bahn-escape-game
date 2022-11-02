@@ -29,8 +29,6 @@ WA.onInit().then(() => {
             height: "250px",
         },
     }
-    WA.ui.website.open(information)
-
 
     // ROOM 1
     const clueWarning = "Asking for a clue will cost you 2 minutes."
@@ -38,6 +36,7 @@ WA.onInit().then(() => {
     let cigaretteFound = false
 
     if (WA.state.GameStarted === false) {
+        WA.controls.disablePlayerControls()
         currentPopup = WA.ui.openPopup("startPopup", "You have just landed in an abandoned train station. By clicking on ESCAPE the 20 minutes timer will start.", [
             {
                 label: 'ESCAPE',
@@ -45,11 +44,20 @@ WA.onInit().then(() => {
                 callback: () => {
                     WA.state.GameStarted = true
                     closePopup()
+                    WA.controls.restorePlayerControls()
                 },
             }
         ])
+    } else {
+        WA.ui.website.open(information)
     }
-    WA.room.onLeaveLayer("start").subscribe(closePopup)
+
+    const GameStarted = WA.state.onVariableChange('GameStarted').subscribe((value) => {
+        if (value === true) {
+            WA.ui.website.open(information)
+            GameStarted.unsubscribe()
+        }
+    })
 
     WA.room.onEnterLayer("cigarette").subscribe(() => {
         if (WA.state.CigaretteVisible) {
@@ -158,7 +166,7 @@ WA.onInit().then(() => {
     WA.room.area.onLeave("room1bot").subscribe(closePopup)
 
     WA.room.area.onEnter("goToDriverCabine").subscribe(() => {
-        WA.nav.goToRoom("map.json#driver-cabine")
+        WA.nav.goToRoom("#driver-cabine")
         const x = 137*32
         const y = 16*32
         WA.camera.set(x, y, 500, 500, false, true)
