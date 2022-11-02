@@ -1,6 +1,7 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
+import { CreateUIWebsiteEvent } from "@workadventure/iframe-api-typings/Api/Events/Ui/UIWebsite";
 
 console.log('Script started successfully');
 
@@ -11,7 +12,28 @@ WA.onInit().then(() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
 
-    const clueWarning = "Asking for a clue will add 2 minutes to your time. The game ends after 20 minutes."
+    const mapUrl = WA.room.mapURL
+    const root = mapUrl.substring(0, mapUrl.lastIndexOf("/"))
+
+    const information: CreateUIWebsiteEvent = {
+        url:  root + "/information.html",
+        visible: true,
+        allowApi: true,
+        allowPolicy: "",   // The list of feature policies allowed
+        position: {
+            vertical: "top",
+            horizontal: "middle",
+        },
+        size: {            // Size on the UI (available units: px|em|%|cm|in|pc|pt|mm|ex|vw|vh|rem and others values auto|inherit)
+            width: "500px",
+            height: "250px",
+        },
+    }
+    WA.ui.website.open(information)
+
+
+    // ROOM 1
+    const clueWarning = "Asking for a clue will cost you 2 minutes. The game ends after 20 minutes."
     let cigaretteFound = false
 
     WA.room.onEnterLayer("cigarette").subscribe(() => {
@@ -113,7 +135,7 @@ WA.onInit().then(() => {
                 {
                     label: 'Give me a clue',
                     className: 'primary',
-                    callback: () => giveClue(0),
+                    callback: () => giveClue(1),
                 }
             ])
         }
@@ -127,12 +149,21 @@ WA.onInit().then(() => {
         WA.camera.set(x, y, 500, 500, false, true)
     })
 
+    // ROOM 2
+    WA.room.onEnterLayer("driver-cabine").subscribe(() => {
+        // anti-cheat
+        if (!WA.state.TrainDoorOpen) {
+            WA.controls.disablePlayerControls()
+            currentPopup = WA.ui.openPopup("driverCabinePopup", "You have to start over. This may be due to data corruption or you are trying to cheat ^^", [])
+        }
+    })
+
     WA.room.area.onEnter("room2bot").subscribe(() => {
         currentPopup = WA.ui.openPopup("room2botPopup", "Stranger, it seems this train is not going to start until you find the right key. " + clueWarning, [
             {
                 label: 'Give me a clue',
                 className: 'primary',
-                callback: () => giveClue(1),
+                callback: () => giveClue(2),
             }
         ])
     })
@@ -143,7 +174,7 @@ WA.onInit().then(() => {
             {
                 label: 'Give me a clue',
                 className: 'primary',
-                callback: () => giveClue(2),
+                callback: () => giveClue(3),
             }
         ])
     })
@@ -163,21 +194,19 @@ function closePopup(){
     }
 }
 
-const clues = [
-    [ "Message from the  Scripting API", "1: Indice 2", "1: Indice 3" ],
-    [ "2: Indice 1", "2: Indice 2", "2: Indice 3" ],
-    [ "3: Indice 1", "3: Indice 2", "3: Indice 3" ]
-  ]
-let tries = 0
-
-function giveClue(room: number){
-    if (clues[room][tries]) {
-        WA.chat.sendChatMessage(clues[room][tries], "KindRobot00"+room)
-        tries ++
-    } else {
-        WA.chat.sendChatMessage("Sorry. No more clues for this room.", "KindRobot00"+room)
+function giveClue(roomNumber: number){
+    console.log(roomNumber)
+    let variableName = ""
+    for (let i = 1; i < 4; i++) {
+        variableName = `Room${roomNumber}Clue${i}`
+        console.log("variableName",variableName)
+        console.log(WA.state.loadVariable(variableName))
+        // If the next clue has not been shown: show it
+        if (WA.state.loadVariable(variableName) === false) {
+            WA.state.saveVariable(variableName, true)
+            return
+        }
     }
-    
 }
 
 export {};
