@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information</title>
+    
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
+  <link rel="stylesheet" href="./assets/information.99d88956.css">
+</head>
+<body>
+    <div id="container">
+        <div id="timer">--:--</div>
+        <img draggable="false" src="caret-down-icon.svg" alt="Down">
+        <div id="information"></div>
+    </div>
+
+    <script>
+        /// <reference path="../node_modules/@workadventure/iframe-api-typings/iframe_api.d.ts" />
+        console.log('Information UI Website started successfully');
+
+        WA.onInit().then(() => {
+            const timerElement = document.getElementById("timer")
+            let time = WA.state.EscapeGameTimer ? WA.state.EscapeGameTimer : 1200 // 1200 seconds = 20 minutes
+            const informationElement = document.querySelector("#information");
+            let htmlContent = ""
+            
+            const timer = setInterval(() => {
+                if (WA.state.GameStarted) {
+                    time --
+
+                    if (time === 0) {
+                        clearInterval(timer);
+                        WA.controls.disablePlayerControls()
+                        timerElement.innerText = "GAME OVER"
+                        return
+                    }
+
+                    let minutes = parseInt(time / 60, 10)
+                    let secondes = parseInt(time % 60, 10)
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes
+                    secondes = secondes < 10 ? "0" + secondes : secondes
+                    
+                    timerElement.innerText = `${minutes}:${secondes}`
+                }
+            }, 1000)
+
+            const sync = setInterval(() => {
+                if (WA.state.GameStarted) {
+                    WA.state.EscapeGameTimer = time
+                    if (time === 0) {
+                        clearInterval(sync);
+                    }
+                }
+            }, 3000)
+
+            function addClue(clue) {
+                htmlContent += clue
+                informationElement.insertAdjacentHTML("afterbegin", htmlContent)
+                time -= 120 // 2 minutes penalty
+            }
+
+
+            const Room1Clue1 = WA.state.onVariableChange('Room1Clue1').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 1: More information about this room can be found at the reception located at the north of the map.</li>")
+                    Room1Clue1.unsubscribe()
+                }
+            });
+
+            const Room1Clue2 = WA.state.onVariableChange('Room1Clue2').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 1: 3 riddles have to be solved in order to open the train door. Know that you can talk to robots...</li>")
+                    Room1Clue2.unsubscribe()
+                }
+            });
+
+            const Room1Clue3 = WA.state.onVariableChange('Room1Clue3').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 1: The Tic-Tac-Toe game... The cigarette on the floor... The final question...</li>")
+                    Room1Clue3.unsubscribe()
+                }
+            });
+
+            const Room2Clue1 = WA.state.onVariableChange('Room2Clue1').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 2: The train has to be started. A computer should help you if you find the right code.</li>")
+                    Room2Clue1.unsubscribe()
+                }
+            });
+
+            const Room2Clue2 = WA.state.onVariableChange('Room2Clue2').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 2: Find the 4 hidden items.</li>")
+                    Room2Clue2.unsubscribe()
+                }
+            });
+
+            const Room2Clue3 = WA.state.onVariableChange('Room2Clue3').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 2: Each item corresponds to a digit of the code. The greater first...</li>")
+                    Room2Clue3.unsubscribe()
+                }
+            });
+
+            const Room3Clue1 = WA.state.onVariableChange('Room3Clue1').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 3: Max Maulwurf has something to say.</li>")
+                    Room3Clue1.unsubscribe()
+                }
+            });
+
+            const Room3Clue2 = WA.state.onVariableChange('Room3Clue2').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 3: Find the hidden items.</li>")
+                    Room3Clue2.unsubscribe()
+                }
+            });
+
+            const Room3Clue3 = WA.state.onVariableChange('Room3Clue3').subscribe((value) => {
+                if (value === true) {
+                    addClue("<li>ROOM 3: The DB trophy... The WorkAdventure mug... Max's hat...</li>")
+                    Room3Clue3.unsubscribe()
+                }
+            });
+        })
+    </script>
+</body>
+</html>
