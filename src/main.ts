@@ -126,7 +126,7 @@ WA.onInit().then(() => {
 
     WA.chat.onChatMessage((message => {
         if (WA.state.QuestionOngoing) {
-            WA.state.QuestionComplete = message == "2018"
+            WA.state.QuestionComplete = message == "46"
             if (WA.state.QuestionComplete) {
                 WA.chat.sendChatMessage("Correct. You can now enter.", "KindRobot000")
                 WA.state.TrainDoorOpen = true
@@ -150,7 +150,11 @@ WA.onInit().then(() => {
     WA.room.area.onEnter("room1bot").subscribe(() => {
         if (WA.state.QuestionComplete) return
         if (WA.state.TicTacToeComplete && WA.state.CigaretteComplete) {
-            WA.chat.sendChatMessage("Stranger, can you tell me in what year the train track switches were fully automated? Type your answer here.", "KindRobot000")
+            WA.chat.sendChatMessage("Here is my riddle: "
+            + "19 people get off a train at the first station. 17 get on. 63 people are now on the train. "
+            + "At the second station, 10 people get on. "
+            + "How many persons are on the train from the beginning? "
+            + "Type your answer here:", "KindRobot000")
             WA.chat.sendChatMessage("Think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
             WA.state.QuestionOngoing = true
         } else {
@@ -192,38 +196,34 @@ WA.onInit().then(() => {
     })
     WA.room.area.onLeave("room2bot").subscribe(closePopup)
 
-    WA.room.onEnterLayer("room2Object1").subscribe(() => {
-        currentPopup = WA.ui.openPopup("room2Object1Popup", "You found a cup of coffee. Studies have shown that the optimal consumption for healthy adults is 3 cups of coffee.", [])
-        WA.state.CoffeeFound = true
+    WA.room.area.onEnter("room2coffee").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2coffeePopup", "You found a cup of coffee. Studies have shown that the optimal consumption for healthy adults is 3 cups of coffee.", [])
     })
-    WA.room.onLeaveLayer("room2Object1").subscribe(closePopup)
+    WA.room.area.onLeave("room2coffee").subscribe(closePopup)
 
-    WA.room.onEnterLayer("room2Object2").subscribe(() => {
-        currentPopup = WA.ui.openPopup("room2Object2Popup", "You found a Pretzel. Given the size of this Pretzel, 1 is more than enough for breakfast!", [])
-        WA.state.PretzelFound = true
+    WA.room.area.onEnter("room2pretzel").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2pretzelPopup", "You found a Pretzel. Given the size of this Pretzel, 1 is more than enough for breakfast!", [])
     })
-    WA.room.onLeaveLayer("room2Object2").subscribe(closePopup)
+    WA.room.area.onLeave("room2pretzel").subscribe(closePopup)
 
-    WA.room.onEnterLayer("room2Object3").subscribe(() => {
-        currentPopup = WA.ui.openPopup("room2Object3Popup", "You found an old map. It is very rare. Only 8 like this one exist in the world!", [])
-        WA.state.OldMapFound = true
+    WA.room.area.onEnter("room2oldMap").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2oldMapPopup", "You found an old map. It is very rare. Only 8 like this one exist in the world!", [])
     })
-    WA.room.onLeaveLayer("room2Object3").subscribe(closePopup)
+    WA.room.area.onLeave("room2oldMap").subscribe(closePopup)
 
-    WA.room.onEnterLayer("room2Object4").subscribe(() => {
-        currentPopup = WA.ui.openPopup("room2Object4Popup", "You found some coins. 5 more and you might be able to trade them for a bank bill.", [])
-        WA.state.CoinsFound = true
+    WA.room.area.onEnter("room2coins").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room2coinsPopup", "You found some coins. 5 more and you might be able to trade them for a bank bill.", [])
     })
-    WA.room.onLeaveLayer("room2Object4").subscribe(closePopup)
+    WA.room.area.onLeave("room2coins").subscribe(closePopup)
 
     // ROOM 3
     WA.room.onEnterLayer("max-maulwurf").subscribe(() => {
         // anti-cheat
         if (!WA.state.TrainStarted) {
             WA.controls.disablePlayerControls()
-            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", cheatWarning, [])
+            currentPopup = WA.ui.openPopup("room3Popup", cheatWarning, [])
         } else {
-            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
+            currentPopup = WA.ui.openPopup("room3Popup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
         }
     })
     WA.room.onLeaveLayer("max-maulwurf").subscribe(closePopup)
@@ -238,6 +238,42 @@ WA.onInit().then(() => {
         ])
     })
     WA.room.area.onLeave("room3bot").subscribe(closePopup)
+
+    WA.room.area.onEnter("room3helmet").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room3helmetPopup", "You found the yellow work helmet! This should help to calm down Max Maulwurf.", [])
+    })
+    WA.room.area.onLeave("room3helmet").subscribe(closePopup)
+
+    WA.room.area.onEnter("room3DBtrophy").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room3DBtrophyPopup", "You found the DB trophy! This should help to calm down Max Maulwurf.", [])
+    })
+    WA.room.area.onLeave("room3DBtrophy").subscribe(closePopup)
+
+    WA.room.area.onEnter("room3WAmug").subscribe(() => {
+        currentPopup = WA.ui.openPopup("room3WAmugPopup", "You found the WorkAdventure coffee mug! This should help to calm down Max Maulwurf.", [])
+    })
+    WA.room.area.onLeave("room3WAmug").subscribe(closePopup)
+
+    WA.room.area.onEnter("maxMaulwurf").subscribe(() => {
+        if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
+            WA.room.hideLayer("maxHangry")
+            WA.room.showLayer("maxHappy")
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "You give the 3 items to Max. After receiving all the items, he calms down and pauses while looking at his beloved helmet. "
+            + "He remembers his time in DB: his main task was to inform about construction and repairs... "
+            + "After he has repaired everything, he apologizes and wishes the participants all the best and he agrees to power ON the power supply.", [
+                {
+                    label: 'Power ON',
+                    className: 'primary',
+                    callback: () => powerON(),
+                }
+            ])
+        } else {
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks angry... it seems he is the one who caused the damage in the power station "
+            + "bacause he's mad that he's no longer the railroad mascot.", [])
+        }
+    })
+    WA.room.area.onLeave("maxMaulwurf").subscribe(closePopup)
+    
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
@@ -263,6 +299,12 @@ function giveClue(roomNumber: number){
             return
         }
     }
+}
+
+function powerON(){
+    // switch to powered ON tileset
+    WA.state.powerON = true
+    WA.nav.openCoWebSite(WA.state.formURL as string)
 }
 
 export {};

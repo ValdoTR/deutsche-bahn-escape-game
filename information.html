@@ -33,6 +33,7 @@
                         clearInterval(timer);
                         WA.controls.disablePlayerControls()
                         timerElement.innerText = "GAME OVER"
+                        WA.chat.sendChatMessage("GAME OVER. You have exceeded the time allowed to finish the game.", "KindRobot000")
                         return
                     }
 
