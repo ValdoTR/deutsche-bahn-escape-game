@@ -25,7 +25,7 @@ WA.onInit().then(() => {
             horizontal: "middle",
         },
         size: {            // Size on the UI (available units: px|em|%|cm|in|pc|pt|mm|ex|vw|vh|rem and others values auto|inherit)
-            width: "500px",
+            width: "1000px",
             height: "250px",
         },
     }
@@ -56,6 +56,8 @@ WA.onInit().then(() => {
         if (value === true) {
             WA.ui.website.open(information)
             GameStarted.unsubscribe()
+            closePopup()
+            WA.controls.restorePlayerControls()
         }
     })
 

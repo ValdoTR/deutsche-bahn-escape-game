@@ -23,8 +23,8 @@ body {
     overflow: hidden;
 }
 
-#container:hover {
-    width: 500px;
+#container.open {
+    width: 100%;
     height: 200px;
 }
 
@@ -34,4 +34,11 @@ body {
 
 img {
     width: 1rem;
+}
+
+#information {
+    display: none;
+}
+#information.open {
+    display: block;
 }
