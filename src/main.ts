@@ -310,6 +310,7 @@ function giveClue(roomNumber: number){
 }
 
 function powerON(){
+    closePopup()
     // switch to powered ON tileset
     WA.state.powerON = true
     WA.nav.openCoWebSite(WA.state.formURL as string)

@@ -1304,7 +1304,7 @@
                  "value":"{{#powerON}}1{{\/powerON}}"
                 }],
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":300,
          "x":0,
          "y":0
@@ -3098,7 +3098,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -3137,7 +3137,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -3200,6 +3200,12 @@
          "id":73,
          "name":"maxHangry",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3265,6 +3271,12 @@
          "id":74,
          "name":"maxHappy",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{#powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":false,
          "width":300,
@@ -3467,7 +3479,7 @@
                  "value":"{{#powerON}}1{{\/powerON}}"
                 }],
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":300,
          "x":0,
          "y":0
@@ -3598,6 +3610,12 @@
          "opacity":0.5,
          "parallaxx":0.5,
          "parallaxy":0.5,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3665,6 +3683,12 @@
          "opacity":1,
          "parallaxx":0.6,
          "parallaxy":0.6,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3732,6 +3756,12 @@
          "opacity":1,
          "parallaxx":0.7,
          "parallaxy":0.7,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3799,6 +3829,12 @@
          "opacity":1,
          "parallaxx":0.8,
          "parallaxy":0.8,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3866,6 +3902,12 @@
          "opacity":1,
          "parallaxx":0.9,
          "parallaxy":0.9,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3933,6 +3975,12 @@
          "opacity":0.81,
          "parallaxx":0.9,
          "parallaxy":0.9,
+         "properties":[
+                {
+                 "name":"visible",
+                 "type":"string",
+                 "value":"{{^powerON}}1{{\/powerON}}"
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":300,
@@ -3940,7 +3988,7 @@
          "y":0
         }],
  "nextlayerid":93,
- "nextobjectid":114,
+ "nextobjectid":115,
  "orientation":"orthogonal",
  "properties":[
         {
