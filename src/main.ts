@@ -26,7 +26,7 @@ WA.onInit().then(() => {
         },
         size: {            // Size on the UI (available units: px|em|%|cm|in|pc|pt|mm|ex|vw|vh|rem and others values auto|inherit)
             width: "1000px",
-            height: "250px",
+            height: "300px",
         },
     }
 
@@ -243,20 +243,26 @@ WA.onInit().then(() => {
 
     WA.room.area.onEnter("room3helmet").subscribe(() => {
         currentPopup = WA.ui.openPopup("room3helmetPopup", "You found the yellow work helmet! This should help to calm down Max Maulwurf.", [])
+        WA.state.helmetFound = true
     })
     WA.room.area.onLeave("room3helmet").subscribe(closePopup)
 
     WA.room.area.onEnter("room3DBtrophy").subscribe(() => {
         currentPopup = WA.ui.openPopup("room3DBtrophyPopup", "You found the DB trophy! This should help to calm down Max Maulwurf.", [])
+        WA.state.DBtrophyFound = true
     })
     WA.room.area.onLeave("room3DBtrophy").subscribe(closePopup)
 
     WA.room.area.onEnter("room3WAmug").subscribe(() => {
         currentPopup = WA.ui.openPopup("room3WAmugPopup", "You found the WorkAdventure coffee mug! This should help to calm down Max Maulwurf.", [])
+        WA.state.WAmugFound = true
     })
     WA.room.area.onLeave("room3WAmug").subscribe(closePopup)
 
     WA.room.area.onEnter("maxMaulwurf").subscribe(() => {
+        console.log("WA.state.WAmugFound",WA.state.WAmugFound)
+        console.log("WA.state.helmetFound",WA.state.helmetFound)
+        console.log("WA.state.DBtrophyFound",WA.state.DBtrophyFound)
         if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
             WA.room.hideLayer("maxHangry")
             WA.room.showLayer("maxHappy")
@@ -270,7 +276,7 @@ WA.onInit().then(() => {
                 }
             ])
         } else {
-            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks angry... it seems he is the one who caused the damage in the power station "
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks hangry... it seems he is the one who caused the damage in the power station "
             + "bacause he's mad that he's no longer the railroad mascot.", [])
         }
     })
