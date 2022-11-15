@@ -3663,7 +3663,7 @@
          "height":54,
          "id":62,
          "name":"mist1",
-         "opacity":0.7,
+         "opacity":0.8,
          "parallaxx":0.5,
          "parallaxy":0.5,
          "properties":[
@@ -3736,7 +3736,7 @@
          "height":54,
          "id":63,
          "name":"mist2",
-         "opacity":0.7,
+         "opacity":0.8,
          "parallaxx":0.6,
          "parallaxy":0.6,
          "properties":[
@@ -3809,7 +3809,7 @@
          "height":54,
          "id":64,
          "name":"mist3",
-         "opacity":0.7,
+         "opacity":0.8,
          "parallaxx":0.7,
          "parallaxy":0.7,
          "properties":[
@@ -3882,7 +3882,7 @@
          "height":54,
          "id":65,
          "name":"mist4",
-         "opacity":0.7,
+         "opacity":0.8,
          "parallaxx":0.8,
          "parallaxy":0.8,
          "properties":[
@@ -3955,7 +3955,7 @@
          "height":54,
          "id":71,
          "name":"mist5",
-         "opacity":0.7,
+         "opacity":0.8,
          "parallaxx":0.9,
          "parallaxy":0.9,
          "properties":[
