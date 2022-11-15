@@ -152,10 +152,10 @@ WA.onInit().then(() => {
     WA.room.area.onEnter("room1bot").subscribe(() => {
         if (WA.state.QuestionComplete) return
         if (WA.state.TicTacToeComplete && WA.state.CigaretteComplete) {
-            WA.chat.sendChatMessage("Here is my riddle: "
-            + "19 people get off a train at the first station. 17 get on. 63 people are now on the train. "
+            WA.chat.sendChatMessage("Listen carefully, discuss with your team and answer my riddle: \n"
+            + "19 people get off a train at the first stop and 17 get on. 63 people are now on the train. "
             + "At the second station, 10 people get on. "
-            + "How many persons are on the train from the beginning? "
+            + "How many persons were on the train from the beginning? "
             + "Type your answer here:", "KindRobot000")
             WA.chat.sendChatMessage("Think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
             WA.state.QuestionOngoing = true
@@ -268,19 +268,25 @@ WA.onInit().then(() => {
             WA.room.showLayer("maxHappy")
             currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "You give the 3 items to Max. After receiving all the items, he calms down and pauses while looking at his beloved helmet. "
             + "He remembers his time in DB: his main task was to inform about construction and repairs... "
-            + "After he has repaired everything, he apologizes and wishes the participants all the best and he agrees to power ON the power supply.", [
-                {
-                    label: 'Power ON',
-                    className: 'primary',
-                    callback: () => powerON(),
-                }
-            ])
+            + "He apologizes and agrees to power ON the power supply. Hurry and restart the train traffic control system at the terminal to avoid further delays!", [])
+            WA.state.isMaxHappy = true
         } else {
             currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks hangry... it seems he is the one who caused the damage in the power station "
             + "bacause he's mad that he's no longer the railroad mascot.", [])
         }
     })
     WA.room.area.onLeave("maxMaulwurf").subscribe(closePopup)
+
+    WA.room.area.onEnter("terminal").subscribe(() => {
+        currentPopup = WA.ui.openPopup("terminalPopup", "Looks like you need to restart the system to finish your mission!", [
+            {
+                label: 'RESTART',
+                className: 'primary',
+                callback: () => restartPower(),
+            }
+        ])
+    
+    })
     
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
@@ -309,10 +315,9 @@ function giveClue(roomNumber: number){
     }
 }
 
-function powerON(){
+function restartPower(){
     closePopup()
-    // switch to powered ON tileset
-    WA.state.powerON = true
+    WA.state.powerRestarted = true
     WA.nav.openCoWebSite(WA.state.formURL as string)
 }
 
