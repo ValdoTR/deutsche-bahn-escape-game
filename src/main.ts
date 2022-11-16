@@ -157,6 +157,7 @@ WA.onInit().then(() => {
     })
 
     WA.room.area.onEnter("room2bot").subscribe(() => {
+        if (WA.state.TrainStarted) return
         currentPopup = WA.ui.openPopup("room2botPopup", "Stranger, it seems this train is not going to start until you find the right key. " + clueWarning, [
             {
                 label: 'Give me a clue',
@@ -189,7 +190,7 @@ WA.onInit().then(() => {
 
     WA.room.onEnterLayer("teleportRoom3").subscribe(() => {
         if (WA.state.TrainStarted) {
-            WA.ui.openPopup("teleportRoom3Popup", "Now that the train can start, you can go to the next room!", [
+            currentPopup = WA.ui.openPopup("teleportRoom3Popup", "Now that the train can start, you can go to the next room!", [
                 {
                     label: 'Teleport',
                     className: 'primary',
@@ -218,6 +219,7 @@ WA.onInit().then(() => {
     WA.room.onLeaveLayer("max-maulwurf").subscribe(closePopup)
 
     WA.room.area.onEnter("room3bot").subscribe(() => {
+        if (WA.state.isMaxHappy) return
         currentPopup = WA.ui.openPopup("room3botPopup", "Stranger, it seems your beloved Max Maulwurf is hangry. You will be blocked here until you comfort him. " + clueWarning, [
             {
                 label: 'Give me a clue',
@@ -248,7 +250,7 @@ WA.onInit().then(() => {
 
     WA.room.area.onEnter("maxMaulwurf").subscribe(() => {
         if (WA.state.powerRestarted) {
-            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Thank you all for fixing the train station!.", [])
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Thank you all for fixing the train station!", [])
         } else if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
             WA.room.hideLayer("maxHangry")
             WA.room.showLayer("maxHappy")
