@@ -260,9 +260,6 @@ WA.onInit().then(() => {
     WA.room.area.onLeave("room3WAmug").subscribe(closePopup)
 
     WA.room.area.onEnter("maxMaulwurf").subscribe(() => {
-        console.log("WA.state.WAmugFound",WA.state.WAmugFound)
-        console.log("WA.state.helmetFound",WA.state.helmetFound)
-        console.log("WA.state.DBtrophyFound",WA.state.DBtrophyFound)
         if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
             WA.room.hideLayer("maxHangry")
             WA.room.showLayer("maxHappy")
