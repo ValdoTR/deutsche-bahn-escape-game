@@ -33,6 +33,9 @@
             background-size:50% 80%;
             background-position:center;
         }
+        #buttons {
+            margin-top: 15px;
+        }
         a {
             transition:0.1s;
             display:inline-block;
@@ -110,12 +113,28 @@
             border-radius: 50%;
             box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
         }
+        #user-code-container {
+            margin: 0 auto;
+            height:50px;
+            width:350px;
+            text-align:center;
+            color:white;
+            font-family:helvetica;
+            font-weight:bold;
+            line-height:50px;
+            font-size:35px;
+            text-shadow:0 0 2px white;
+            margin-top: -30px;
+            overflow: hidden;
+        }
+        #user-code {
+            margin: 0;
+        }
         .logo {
-            margin-bottom: -83px;
+            margin-top: 32px;
         }
         .logo img {
             height: 40px;
-            margin-bottom: -90px;
         }
     </style>
     <script src="https://play.workadventu.re/iframe_api.js"></script>
@@ -139,23 +158,28 @@
             let clear = document.querySelector("a[tabindex='10']")
             let enter = document.querySelector("a[tabindex='11']")
 
-            zero.addEventListener("click", () => {userCode += "0"})
-            one.addEventListener("click", () => {userCode += "1"})
-            two.addEventListener("click", () => {userCode += "2"})
-            three.addEventListener("click", () => {userCode += "3"})
-            four.addEventListener("click", () => {userCode += "4"})
-            five.addEventListener("click", () => {userCode += "5"})
-            six.addEventListener("click", () => {userCode += "6"})
-            seven.addEventListener("click", () => {userCode += "7"})
-            eight.addEventListener("click", () => {userCode += "8"})
-            nine.addEventListener("click", () => {userCode += "9"})
+            zero.addEventListener("click", () => {addDigit("0")})
+            one.addEventListener("click", () => {addDigit("1")})
+            two.addEventListener("click", () => {addDigit("2")})
+            three.addEventListener("click", () => {addDigit("3")})
+            four.addEventListener("click", () => {addDigit("4")})
+            five.addEventListener("click", () => {addDigit("5")})
+            six.addEventListener("click", () => {addDigit("6")})
+            seven.addEventListener("click", () => {addDigit("7")})
+            eight.addEventListener("click", () => {addDigit("8")})
+            nine.addEventListener("click", () => {addDigit("9")})
             clear.addEventListener("click", pressClear)
             enter.addEventListener("click", pressEnter)
         }
 
+        function addDigit(digit) {
+            userCode += digit
+            document.getElementById("user-code").innerText = userCode
+        }
+
         function pressClear() {
             userCode = ""
-            document.querySelector("a[tabindex='11']").style.color = "white"
+            document.getElementById("user-code").innerText = userCode
             document.getElementById("led").className = "led-blue"
         }
 
@@ -190,18 +214,24 @@
                 <div id="led" class="led-blue"></div>
             </div>
 
-            <a role="button" tabindex="1">1</a>
-            <a role="button" tabindex="2">2<span>abc</span></a>
-            <a role="button" tabindex="3">3<span>def</span></a>
-            <a role="button" tabindex="4">4<span>ghi</span></a>
-            <a role="button" tabindex="5">5<span>jkl</span></a>
-            <a role="button" tabindex="6">6<span>mno</span></a>
-            <a role="button" tabindex="7">7<span>pqrs</span></a>
-            <a role="button" tabindex="8">8<span>tuv</span></a>
-            <a role="button" tabindex="9">9<span>wxyz</span></a>
-            <a role="button" tabindex="10" class="scaledigit">&#42;<span>CLEAR</span></a>
-            <a role="button" tabindex="0">0</a>
-            <a role="button" tabindex="11">&#35;<span>ENTER</span></a>
+            <div id="user-code-container">
+                <p id="user-code"></p>
+            </div>
+
+            <div id="buttons">
+                <a role="button" tabindex="1">1</a>
+                <a role="button" tabindex="2">2<span>abc</span></a>
+                <a role="button" tabindex="3">3<span>def</span></a>
+                <a role="button" tabindex="4">4<span>ghi</span></a>
+                <a role="button" tabindex="5">5<span>jkl</span></a>
+                <a role="button" tabindex="6">6<span>mno</span></a>
+                <a role="button" tabindex="7">7<span>pqrs</span></a>
+                <a role="button" tabindex="8">8<span>tuv</span></a>
+                <a role="button" tabindex="9">9<span>wxyz</span></a>
+                <a role="button" tabindex="10" class="scaledigit">&#42;<span>CLEAR</span></a>
+                <a role="button" tabindex="0">0</a>
+                <a role="button" tabindex="11">&#35;<span>ENTER</span></a>
+            </div>
 
             <div class="logo">
                 <img src="WA_Logo.png" alt="FestAdventure logo">
