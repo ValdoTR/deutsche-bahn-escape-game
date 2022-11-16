@@ -80,6 +80,24 @@
                 }, 5000)
             }
 
+            const TrainDoorOpen = WA.state.onVariableChange('TrainDoorOpen').subscribe((value) => {
+                // Clear the clues from room 1 to troom 2
+                if (value === true) {
+                    htmlContent = ""
+                    informationElement.innerHTML = htmlContent
+                    TrainDoorOpen.unsubscribe()
+                }
+            });
+
+            const TrainStarted = WA.state.onVariableChange('TrainStarted').subscribe((value) => {
+                // Clear the clues from room 2 to troom 3
+                if (value === true) {
+                    htmlContent = ""
+                    informationElement.innerHTML = htmlContent
+                    TrainStarted.unsubscribe()
+                }
+            });
+
             const Room1Clue1 = WA.state.onVariableChange('Room1Clue1').subscribe((value) => {
                 if (value === true) {
                     addClue("<p>Clue 1/3: More information about this room can be found at the reception located at the north of the map.</p>")

@@ -25,8 +25,8 @@ WA.onInit().then(() => {
             horizontal: "middle",
         },
         size: {            // Size on the UI (available units: px|em|%|cm|in|pc|pt|mm|ex|vw|vh|rem and others values auto|inherit)
-            width: "1000px",
-            height: "300px",
+            width: "800px",
+            height: "200px",
         },
     }
 
