@@ -35,32 +35,6 @@ WA.onInit().then(() => {
     const cheatWarning = "You have to start over. This may be due to data corruption or you are trying to cheat ^^"
     let cigaretteFound = false
 
-    if (WA.state.GameStarted === false) {
-        WA.controls.disablePlayerControls()
-        currentPopup = WA.ui.openPopup("startPopup", "You have just landed in an abandoned train station. By clicking on ESCAPE the 20 minutes timer will start.", [
-            {
-                label: 'ESCAPE',
-                className: 'error',
-                callback: () => {
-                    WA.state.GameStarted = true
-                    closePopup()
-                    WA.controls.restorePlayerControls()
-                },
-            }
-        ])
-    } else {
-        WA.ui.website.open(information)
-    }
-
-    const GameStarted = WA.state.onVariableChange('GameStarted').subscribe((value) => {
-        if (value === true) {
-            WA.ui.website.open(information)
-            GameStarted.unsubscribe()
-            closePopup()
-            WA.controls.restorePlayerControls()
-        }
-    })
-
     WA.room.onEnterLayer("cigarette").subscribe(() => {
         if (WA.state.CigaretteVisible) {
             currentPopup = WA.ui.openPopup("cigarettePopup", "A cigarette left on the ground. There is a trash can for that, but this person was obviously in a hurry.", [])
@@ -289,6 +263,32 @@ WA.onInit().then(() => {
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
         console.log('Scripting API Extra ready');
+
+        const GameStarted = WA.state.onVariableChange('GameStarted').subscribe((value) => {
+            if (value === true) {
+                WA.ui.website.open(information)
+                GameStarted.unsubscribe()
+                closePopup()
+                WA.controls.restorePlayerControls()
+            }
+        })
+
+        if (WA.state.GameStarted === false) {
+            WA.controls.disablePlayerControls()
+            currentPopup = WA.ui.openPopup("startPopup", "You have just landed in an abandoned train station. By clicking on ESCAPE the 20 minutes timer will start.", [
+                {
+                    label: 'ESCAPE',
+                    className: 'error',
+                    callback: () => {
+                        WA.state.GameStarted = true
+                        closePopup()
+                        WA.controls.restorePlayerControls()
+                    },
+                }
+            ])
+        } else {
+            WA.ui.website.open(information)
+        }
     }).catch(e => console.error(e));
 
 }).catch(e => console.error(e));

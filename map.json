@@ -3151,6 +3151,33 @@
                  "width":224,
                  "x":1504,
                  "y":736
+                }, 
+                {
+                 "class":"area",
+                 "height":58.0000333333333,
+                 "id":121,
+                 "name":"magazine",
+                 "properties":[
+                        {
+                         "name":"openWebsite",
+                         "type":"string",
+                         "value":"Magazine.pdf"
+                        }, 
+                        {
+                         "name":"openWebsiteTrigger",
+                         "type":"string",
+                         "value":"onaction"
+                        }, 
+                        {
+                         "name":"openWebsiteTriggerMessage",
+                         "type":"string",
+                         "value":"Press Space or Touch to inspect the magazines"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":65.75,
+                 "x":4623.125,
+                 "y":447.833316666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3971,7 +3998,7 @@
          "y":0
         }],
  "nextlayerid":93,
- "nextobjectid":121,
+ "nextobjectid":122,
  "orientation":"orthogonal",
  "properties":[
         {
