@@ -247,7 +247,9 @@ WA.onInit().then(() => {
     WA.room.area.onLeave("room3WAmug").subscribe(closePopup)
 
     WA.room.area.onEnter("maxMaulwurf").subscribe(() => {
-        if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
+        if (WA.state.powerRestarted) {
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Thank you all for fixing the train station!.", [])
+        } else if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
             WA.room.hideLayer("maxHangry")
             WA.room.showLayer("maxHappy")
             currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "You give the 3 items to Max. After receiving all the items, he calms down and pauses while looking at his beloved helmet. "
