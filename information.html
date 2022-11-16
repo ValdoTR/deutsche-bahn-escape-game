@@ -7,7 +7,7 @@
     <title>Information</title>
     
     <script src="https://play.workadventu.re/iframe_api.js"></script>
-  <link rel="stylesheet" href="./assets/information.b5575f26.css">
+  <link rel="stylesheet" href="./assets/information.f0cf9b4a.css">
 </head>
 <body>
     <div id="container">
@@ -80,6 +80,24 @@
                     informationElement.classList.remove("open")
                 }, 5000)
             }
+
+            const TrainDoorOpen = WA.state.onVariableChange('TrainDoorOpen').subscribe((value) => {
+                // Clear the clues from room 1 to troom 2
+                if (value === true) {
+                    htmlContent = ""
+                    informationElement.innerHTML = htmlContent
+                    TrainDoorOpen.unsubscribe()
+                }
+            });
+
+            const TrainStarted = WA.state.onVariableChange('TrainStarted').subscribe((value) => {
+                // Clear the clues from room 2 to troom 3
+                if (value === true) {
+                    htmlContent = ""
+                    informationElement.innerHTML = htmlContent
+                    TrainStarted.unsubscribe()
+                }
+            });
 
             const Room1Clue1 = WA.state.onVariableChange('Room1Clue1').subscribe((value) => {
                 if (value === true) {
