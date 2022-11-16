@@ -3151,43 +3151,6 @@
                  "width":224,
                  "x":1504,
                  "y":736
-                }, 
-                {
-                 "class":"area",
-                 "height":84.1667,
-                 "id":120,
-                 "name":"digicode",
-                 "properties":[
-                        {
-                         "name":"openWebsite",
-                         "type":"string",
-                         "value":"digicode.html"
-                        }, 
-                        {
-                         "name":"openWebsiteAllowApi",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"openWebsiteTrigger",
-                         "type":"string",
-                         "value":"onaction"
-                        }, 
-                        {
-                         "name":"openWebsiteTriggerMessage",
-                         "type":"string",
-                         "value":"Press Space or Touch to START THE TRAIN"
-                        }, 
-                        {
-                         "name":"openWebsiteWidth",
-                         "type":"int",
-                         "value":40
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":102.25,
-                 "x":1308.625,
-                 "y":903.16665
                 }],
          "opacity":1,
          "type":"objectgroup",
