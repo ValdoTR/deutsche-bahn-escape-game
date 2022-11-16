@@ -126,8 +126,8 @@ WA.onInit().then(() => {
     WA.room.area.onEnter("room1bot").subscribe(() => {
         if (WA.state.QuestionComplete) return
         if (WA.state.TicTacToeComplete && WA.state.CigaretteComplete) {
-            WA.chat.sendChatMessage("Listen carefully, discuss with your team and answer my riddle: \n"
-            + "19 people get off a train at the first stop and 17 get on. 63 people are now on the train. "
+            WA.chat.sendChatMessage("Listen carefully, discuss with your team and answer my riddle:", "KindRobot000")
+            WA.chat.sendChatMessage("19 people get off a train at the first stop and 17 get on. 63 people are now on the train. "
             + "At the second station, 10 people get on. "
             + "How many persons were on the train from the beginning? "
             + "Type your answer here:", "KindRobot000")
@@ -191,6 +191,24 @@ WA.onInit().then(() => {
         currentPopup = WA.ui.openPopup("room2coinsPopup", "You found some coins. 5 more and you might be able to trade them for a bank bill.", [])
     })
     WA.room.area.onLeave("room2coins").subscribe(closePopup)
+
+    WA.room.onEnterLayer("teleportRoom3").subscribe(() => {
+        if (WA.state.TrainStarted) {
+            WA.ui.openPopup("teleportRoom3Popup", "Now that the train can start, you can go to the next room!", [
+                {
+                    label: 'Teleport',
+                    className: 'primary',
+                    callback: () => {
+                        WA.nav.goToRoom("#max-maulwurf")
+                        const x = 241*32
+                        const y = 27*32
+                        WA.camera.set(x, y, 500, 500, false, true)
+                    },
+                }]
+            )
+        }
+    })
+    WA.room.onLeaveLayer("teleportRoom3").subscribe(closePopup)
 
     // ROOM 3
     WA.room.onEnterLayer("max-maulwurf").subscribe(() => {

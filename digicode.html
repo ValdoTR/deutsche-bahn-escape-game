@@ -187,23 +187,11 @@
             if (userCode === code) {
                 WA.state.TrainStarted = true
                 document.getElementById("led").className = "led-green"
-                WA.ui.openPopup("driverCabinePopup", "You have entered the correct combination. The train can start.", [
-                    {
-                        label: 'Start the train',
-                        className: 'primary',
-                        callback: () => nextRoom(),
-                    }]
+                WA.ui.openPopup("driverCabinePopup", "You have entered the correct combination. The train can start.", []
                 )
             } else {
                 document.getElementById("led").className = "led-red"
             }
-        }
-
-        function nextRoom() {
-            WA.nav.goToRoom("#max-maulwurf")
-            const x = 241*32
-            const y = 27*32
-            WA.camera.set(x, y, 500, 500, false, true)
         }
     </script>
 </head>
