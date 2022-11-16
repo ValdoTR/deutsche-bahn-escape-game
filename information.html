@@ -12,7 +12,7 @@
 <body>
     <div id="container">
         <div id="timer">--:--</div>
-        <img draggable="false" src="caret-down-icon.svg" alt="Down">
+        <img id="icon" draggable="false" src="caret-down-icon.svg" alt="Down">
         <div id="information"></div>
     </div>
 
@@ -35,6 +35,7 @@
                     if (time === 0) {
                         clearInterval(timer);
                         WA.controls.disablePlayerControls()
+                        timerElement.style.color = "#EC0016"
                         timerElement.innerText = "GAME OVER"
                         WA.chat.sendChatMessage("GAME OVER. You have exceeded the time allowed to finish the game.", "KindRobot000")
                         return
@@ -172,6 +173,15 @@
                 if (value === true) {
                     addInfo("<p>Clue 3/3: The DB trophy... The WorkAdventure mug... Max's hat...</p>")
                     Room3Clue3.unsubscribe()
+                }
+            });
+
+            const powerRestarted = WA.state.onVariableChange('powerRestarted').subscribe((value) => {
+                if (value === true) {
+                    clearInterval(timer)
+                    timerElement.style.color = "#B8BB26"
+                    document.getElementById("icon").remove()
+                    powerRestarted.unsubscribe()
                 }
             });
         })
