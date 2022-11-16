@@ -264,16 +264,25 @@ WA.onInit().then(() => {
     WA.room.area.onLeave("maxMaulwurf").subscribe(closePopup)
 
     WA.room.area.onEnter("terminal").subscribe(() => {
-        currentPopup = WA.ui.openPopup("terminalPopup", "Looks like you need to restart the system to finish your mission!", [
-            {
-                label: 'RESTART',
-                className: 'primary',
-                callback: () => restartPower(),
+        if (WA.state.isMaxHappy) {
+            if (WA.state.powerRestarted) {
+                WA.nav.openCoWebSite(WA.state.formURL as string)
+            } else {
+                currentPopup = WA.ui.openPopup("terminalPopup", "Looks like you need to restart the system to finish your mission!", [
+                    {
+                        label: 'RESTART',
+                        className: 'primary',
+                        callback: () => restartPower(),
+                    }
+                ])
             }
-        ])
-    
+        } else {
+            currentPopup = WA.ui.openPopup("terminalPopup", "This is the terminal... but it is out of service.", [])
+        }
     })
-    
+    WA.room.area.onLeave("terminal").subscribe(() => {
+        closeEverything()
+    })    
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
@@ -323,6 +332,15 @@ function closePopup(){
     if (currentPopup !== undefined) {
         currentPopup.close();
         currentPopup = undefined;
+    }
+}
+
+async function closeEverything(){
+    closePopup()
+
+    const websites = await WA.nav.getCoWebSites()
+    if (websites.length) {
+        WA.nav.closeCoWebSite()
     }
 }
 
