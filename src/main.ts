@@ -31,7 +31,7 @@ WA.onInit().then(() => {
     }
 
     // ROOM 1
-    const clueWarning = "Asking for a clue will cost you 2 minutes."
+    const clueWarning = "Asking for a clue will cost you 1 minute."
     const cheatWarning = "You have to start over. This may be due to data corruption or you are trying to cheat ^^"
     let cigaretteFound = false
 
@@ -126,15 +126,10 @@ WA.onInit().then(() => {
     WA.room.area.onEnter("room1bot").subscribe(() => {
         if (WA.state.QuestionComplete) return
         if (WA.state.TicTacToeComplete && WA.state.CigaretteComplete) {
-            WA.chat.sendChatMessage("Listen carefully, discuss with your team and answer my riddle:", "KindRobot000")
-            WA.chat.sendChatMessage("19 people get off a train at the first stop and 17 get on. 63 people are now on the train. "
-            + "At the second station, 10 people get on. "
-            + "How many persons were on the train from the beginning? "
-            + "Type your answer here:", "KindRobot000")
-            WA.chat.sendChatMessage("Think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
+            WA.chat.sendChatMessage("Mr Robot: Type your answer here, but think carefully! If you make a mistake you will have to start all over again", "KindRobot000")
             WA.state.QuestionOngoing = true
         } else {
-            currentPopup = WA.ui.openPopup("room1botPopup", "Stranger, I'll block the access to this train until you prove your worth. " + clueWarning, [
+            currentPopup = WA.ui.openPopup("room1botPopup", "Mr Robot: Stranger, I'll block the access to this train until you prove your worth. " + clueWarning, [
                 {
                     label: 'Give me a clue',
                     className: 'primary',
@@ -288,6 +283,17 @@ WA.onInit().then(() => {
                 GameStarted.unsubscribe()
                 closePopup()
                 WA.controls.restorePlayerControls()
+            }
+        })
+
+        WA.state.onVariableChange('TicTacToeComplete').subscribe((value) => {
+            if (value === true) {
+                WA.state.QuestionReady = WA.state.CigaretteComplete 
+            }
+        })
+        WA.state.onVariableChange('CigaretteComplete').subscribe((value) => {
+            if (value === true) {
+                WA.state.QuestionReady = WA.state.TicTacToeComplete 
             }
         })
 

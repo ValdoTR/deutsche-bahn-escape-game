@@ -3260,6 +3260,24 @@
                  "width":256,
                  "x":4480,
                  "y":288
+                }, 
+                {
+                 "class":"variable",
+                 "height":0,
+                 "id":123,
+                 "name":"QuestionReady",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"bool",
+                         "value":false
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":1312,
+                 "y":704
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -4003,7 +4021,7 @@
          "y":0
         }],
  "nextlayerid":95,
- "nextobjectid":123,
+ "nextobjectid":124,
  "orientation":"orthogonal",
  "properties":[
         {
