@@ -17,12 +17,12 @@
 
     <script>
         /// <reference path="../node_modules/@workadventure/iframe-api-typings/iframe_api.d.ts" />
-        console.log('Information UI Website started successfully');
+        console.log('Information UI Website started successfully')
 
         WA.onInit().then(() => {
             const containerElement = document.getElementById("container")
             const timerElement = document.getElementById("timer")
-            const informationElement = document.querySelector("#information");
+            const informationElement = document.querySelector("#information")
 
             let time = WA.state.EscapeGameTimer ? WA.state.EscapeGameTimer : 1200 // 1200 seconds = 20 minutes
             let htmlContent = ""
@@ -32,7 +32,7 @@
                     time --
 
                     if (time === 0) {
-                        clearInterval(timer);
+                        clearInterval(timer)
                         WA.controls.disablePlayerControls()
                         timerElement.style.color = "#EC0016"
                         timerElement.innerText = "GAME OVER"
@@ -54,7 +54,7 @@
                 if (WA.state.GameStarted) {
                     WA.state.EscapeGameTimer = time
                     if (time === 0) {
-                        clearInterval(sync);
+                        clearInterval(sync)
                     }
                 }
             }, 3000)
@@ -92,7 +92,7 @@
                         + "In order to hear your answer you need to be close to me.")
                     QuestionReady.unsubscribe()
                 }
-            });
+            })
 
             const TrainDoorOpen = WA.state.onVariableChange('TrainDoorOpen').subscribe((value) => {
                 // Clear the clues from room 1 to troom 2
@@ -101,7 +101,7 @@
                     informationElement.innerHTML = htmlContent
                     TrainDoorOpen.unsubscribe()
                 }
-            });
+            })
 
             const TrainStarted = WA.state.onVariableChange('TrainStarted').subscribe((value) => {
                 // Clear the clues from room 2 to troom 3
@@ -110,70 +110,70 @@
                     informationElement.innerHTML = htmlContent
                     TrainStarted.unsubscribe()
                 }
-            });
+            })
 
             const Room1Clue1 = WA.state.onVariableChange('Room1Clue1').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 1/3: More information about this room can be found at the reception located at the north of the map.</p>")
                     Room1Clue1.unsubscribe()
                 }
-            });
+            })
 
             const Room1Clue2 = WA.state.onVariableChange('Room1Clue2').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 2/3: 3 riddles have to be solved in order to open the train door. Know that you can talk to robots...</p>")
                     Room1Clue2.unsubscribe()
                 }
-            });
+            })
 
             const Room1Clue3 = WA.state.onVariableChange('Room1Clue3').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 3/3: The Tic-Tac-Toe game... The cigarette on the floor... The final question...</p><br>")
                     Room1Clue3.unsubscribe()
                 }
-            });
+            })
 
             const Room2Clue1 = WA.state.onVariableChange('Room2Clue1').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 1/3: The train has to be started. A computer should help you if you find the right code.</p>")
                     Room2Clue1.unsubscribe()
                 }
-            });
+            })
 
             const Room2Clue2 = WA.state.onVariableChange('Room2Clue2').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 2/3: Find the 4 hidden items.</p>")
                     Room2Clue2.unsubscribe()
                 }
-            });
+            })
 
             const Room2Clue3 = WA.state.onVariableChange('Room2Clue3').subscribe((value) => {
                 if (value === true) {
-                    addInfo("<p>Clue 3/3: Each item corresponds to a digit of the code. The greater first...</p><br>")
+                    addInfo("<p>Clue 3/3: Each item corresponds to a digit of the code. Check the magazines...</p><br>")
                     Room2Clue3.unsubscribe()
                 }
-            });
+            })
 
             const Room3Clue1 = WA.state.onVariableChange('Room3Clue1').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 1/3: Max Maulwurf has something to say.</p>")
                     Room3Clue1.unsubscribe()
                 }
-            });
+            })
 
             const Room3Clue2 = WA.state.onVariableChange('Room3Clue2').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 2/3: Find the hidden items.</p>")
                     Room3Clue2.unsubscribe()
                 }
-            });
+            })
 
             const Room3Clue3 = WA.state.onVariableChange('Room3Clue3').subscribe((value) => {
                 if (value === true) {
                     addInfo("<p>Clue 3/3: The DB trophy... The WorkAdventure mug... Max's hat...</p>")
                     Room3Clue3.unsubscribe()
                 }
-            });
+            })
 
             const powerRestarted = WA.state.onVariableChange('powerRestarted').subscribe((value) => {
                 if (value === true) {
@@ -182,7 +182,7 @@
                     document.getElementById("icon").remove()
                     powerRestarted.unsubscribe()
                 }
-            });
+            })
         })
     </script>
 </body>

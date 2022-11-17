@@ -212,15 +212,18 @@ WA.onInit().then(() => {
         if (!WA.state.TrainStarted) {
             WA.controls.disablePlayerControls()
             currentPopup = WA.ui.openPopup("room3Popup", cheatWarning, [])
-        } else {
-            currentPopup = WA.ui.openPopup("room3Popup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
         }
     })
     WA.room.onLeaveLayer("max-maulwurf").subscribe(closePopup)
 
+    WA.room.area.onEnter("trainRoom3").subscribe(() => {
+        WA.ui.openPopup("room3Popup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
+    })
+    WA.room.area.onLeave("trainRoom3").subscribe(closePopup)
+
     WA.room.area.onEnter("room3bot").subscribe(() => {
         if (WA.state.isMaxHappy) return
-        currentPopup = WA.ui.openPopup("room3botPopup", "Stranger, it seems your beloved Max Maulwurf is hangry. You will be blocked here until you comfort him. " + clueWarning, [
+        currentPopup = WA.ui.openPopup("room3botPopup", "Stranger, it seems your beloved Max Maulwurf is hungry. You will be blocked here until you comfort him. " + clueWarning, [
             {
                 label: 'Give me a clue',
                 className: 'primary',
@@ -252,14 +255,14 @@ WA.onInit().then(() => {
         if (WA.state.powerRestarted) {
             currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Thank you all for fixing the train station!", [])
         } else if (WA.state.WAmugFound && WA.state.helmetFound && WA.state.DBtrophyFound) {
-            WA.room.hideLayer("maxHangry")
+            WA.room.hideLayer("maxHungry")
             WA.room.showLayer("maxHappy")
             currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "You give the 3 items to Max. After receiving all the items, he calms down and pauses while looking at his beloved helmet. "
             + "He remembers his time in DB: his main task was to inform about construction and repairs... "
             + "He apologizes and agrees to power ON the power supply. Hurry and restart the train traffic control system at the terminal to avoid further delays!", [])
             WA.state.isMaxHappy = true
         } else {
-            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks hangry... it seems he is the one who caused the damage in the power station "
+            currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks hungry... it seems he is the one who caused the damage in the power station "
             + "bacause he's mad that he's no longer the railroad mascot.", [])
         }
     })
