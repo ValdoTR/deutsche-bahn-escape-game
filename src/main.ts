@@ -217,7 +217,7 @@ WA.onInit().then(() => {
     WA.room.onLeaveLayer("max-maulwurf").subscribe(closePopup)
 
     WA.room.area.onEnter("trainRoom3").subscribe(() => {
-        WA.ui.openPopup("room3Popup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
+        currentPopup = WA.ui.openPopup("room3Popup", "Oops, looks like the train has been stopped immediately! Investigate the area to find out what happened.", [])
     })
     WA.room.area.onLeave("trainRoom3").subscribe(closePopup)
 
