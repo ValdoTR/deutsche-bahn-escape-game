@@ -263,7 +263,7 @@ WA.onInit().then(() => {
             WA.state.isMaxHappy = true
         } else {
             currentPopup = WA.ui.openPopup("maxMaulwurfPopup", "Max looks hungry... it seems he is the one who caused the damage in the power station "
-            + "bacause he's mad that he's no longer the railroad mascot.", [])
+            + "because he's mad that he's no longer the railroad mascot.", [])
         }
     })
     WA.room.area.onLeave("maxMaulwurf").subscribe(closePopup)
